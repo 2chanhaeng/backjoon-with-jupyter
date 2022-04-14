@@ -2,11 +2,11 @@ from inspect import signature
 from typing import Any, Callable, Container, Iterator, Optional
 
 
-__all__ = ["execute", "set_open", "set_input"]
+__all__ = ["test", "set_open", "set_input"]
 
 
-def execute(solution: Callable[[Callable], None]) -> Callable[[Optional[str]], None]:
-    def execute_example(input_: Optional[str] = None) -> None:
+def test(solution: Callable[[Callable], None]) -> Callable[[Optional[str]], None]:
+    def test_example(input_: Optional[str] = None) -> None:
         params: Container[str] = signature(solution).parameters
 
         if input_ == None:
@@ -33,7 +33,7 @@ def execute(solution: Callable[[Callable], None]) -> Callable[[Optional[str]], N
                 f"solution 함수가 input, open 등의 매개변수를 받지 않습니다.\nsolution 의 매개변수: {params}"
             )
 
-    return execute_example
+    return test_example
 
 
 def set_open(input_: str) -> "open":
