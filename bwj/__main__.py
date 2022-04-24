@@ -7,7 +7,7 @@ from bwj import Problem
 
 match sys.argv:
     case [_]:
-        num = int(input())
+        num = int(input("문제 번호를 입력하세요.: "))
     case [_, num]:
         num = int(num)
     case _:
@@ -65,5 +65,5 @@ if os.path.exists(f"./solving/{fn}"):
 
             fn = f"{filename}.ipynb"
 
-with open(f"solving/{fn}", "w", encoding="utf-8") as f:
-    json.dump(template, f, indent=4)
+with open(f"solving/{fn}", "w", encoding="utf-8-sig") as f:
+    json.dump(template, f, indent=4, ensure_ascii=False)
