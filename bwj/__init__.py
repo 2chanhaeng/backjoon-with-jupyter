@@ -51,16 +51,16 @@ class Problem:
         def __init__(self, problem: "Problem", elem: bs):
             self.elem = elem
             self.input, self.output = map(self.text_extracrt, elem.select("pre"))
+            if self.output.endswith("\n"):
+                self.output = self.output.rstrip()
+            print(self.output)
             problem.Example.count()
             self.num = problem.Example.counter
             self.problem = problem
         
         @staticmethod
         def text_extracrt(io_elem: bs) -> str:
-            io_text = io_elem.text.replace("\r\n", "\n")
-            if io_text.endswith("\n"):
-                io_text = io_text[:-1]
-            return io_text
+            return io_elem.text.replace("\r\n", "\n")
 
         def __str__(self):
             return f"{self.input} # {self.output}"
