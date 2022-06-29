@@ -6,7 +6,7 @@ from typing import Any, Callable, Container, Iterator, Optional, Final
 import requests
 from bs4 import BeautifulSoup as bs
 
-__all__ = ["test", "set_open", "set_input"]
+__all__ = ["test"]
 
 
 class Problem:
@@ -90,18 +90,3 @@ def test(solution: Callable[[Callable], None]) -> Callable[[Optional[str]], None
         sys.stdin = StringIO(example)
         solution()
     return test_example
-
-
-def set_open(input_: str) -> "open":
-    class open:
-        def __init__(self, _):
-            self.read = lambda: input_
-
-        def __iter__(self):
-            return iter(input_.split("\n"))
-
-    return open
-
-
-def set_input(input_: str) -> Iterator[str]:
-    return iter(input_.split("\n")).__next__
