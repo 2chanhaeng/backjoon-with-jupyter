@@ -1,6 +1,5 @@
 import sys
 from io import StringIO
-from inspect import signature
 from typing import Any, Callable, Container, Iterator, Optional, Final
 
 import requests
