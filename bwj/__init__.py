@@ -5,7 +5,7 @@ from typing import Any, Callable, Container, Iterator, Optional, Final
 import requests
 from bs4 import BeautifulSoup as bs
 
-__all__ = ["test"]
+__all__ = ["test", "set_open", "set_input"]
 
 
 class Problem:
@@ -96,3 +96,11 @@ def test(solution: Callable[[Callable], None]) -> Callable[[Optional[str]], None
         solution()
 
     return test_example
+
+
+def set_open(example: str) -> StringIO:
+    return StringIO(example)
+
+
+def set_input(example: str):
+    return StringIO(example).readline
