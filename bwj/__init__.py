@@ -53,7 +53,6 @@ class Problem:
             self.input, self.output = map(self.text_extracrt, elem.select("pre"))
             if self.output.endswith("\n"):
                 self.output = self.output.rstrip()
-            print(self.output)
             problem.Example.count()
             self.num = problem.Example.counter
             self.problem = problem
