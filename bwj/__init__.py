@@ -1,6 +1,8 @@
 import sys
 from io import StringIO
-from typing import Any, Callable, Container, Iterator, Optional, Final
+from typing import Callable, Optional, Final, Dict
+import json
+import pkgutil
 
 import requests
 from bs4 import BeautifulSoup as bs
@@ -9,6 +11,10 @@ __all__ = ["test", "set_open", "set_input"]
 
 
 class Problem:
+    DEFAULT_HEADER: Dict[str, str] = json.loads(
+        pkgutil.get_data(__name__, "static/default_header.json")
+    )
+
     def __init__(self, num: int):
         self.num: Final[int] = num
         self.url: Final[str] = f"https://www.acmicpc.net/problem/{num}"
@@ -25,16 +31,12 @@ class Problem:
             case status_code:
                 raise ConnectionError(f"연결에 문제가 있습니다. 상태코드: {status_code}")
 
-    def __get_response(self) -> requests.Response:
+    def __get_response(
+        self, headers: Dict[str, str] = DEFAULT_HEADER
+    ) -> requests.Response:
         __response: requests.Response = requests.get(
             self.url,
-            headers={
-                "Host": "www.acmicpc.net",
-                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:99.0) Gecko/20100101 Firefox/99.0",
-                "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
-                "Accept-Language": "ko-KR,ko;q=0.8,en-US;q=0.5,en;q=0.3",
-                "Accept-Encoding": "gzip, deflate, br",
-            },
+            headers=headers,
         )
         return __response
 

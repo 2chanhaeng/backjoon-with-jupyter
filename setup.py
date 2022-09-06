@@ -7,8 +7,8 @@ setup(
     author="chomu",
     author_email="2chanhaeng@gmail.com",
     packages=["bwj"],
-    package_data = {
-        'bwj': ['static/*.ipynb'],
+    package_data={
+        "bwj": ["static/*.ipynb", "static/*.json"],
     },
     install_requires=["requests", "bs4"],
 )
