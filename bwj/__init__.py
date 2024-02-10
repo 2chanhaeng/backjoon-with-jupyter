@@ -1,8 +1,8 @@
-import sys
-from io import StringIO
-from typing import Callable, Optional, Final, Dict
 import json
 import pkgutil
+import sys
+from io import StringIO
+from typing import Callable, Dict, Final, Optional
 
 import requests
 from bs4 import BeautifulSoup as bs
@@ -29,7 +29,9 @@ class Problem:
             case 403:
                 raise PermissionError(f"잘못된 접근입니다. 헤더를 수정해주세요.")
             case status_code:
-                raise ConnectionError(f"연결에 문제가 있습니다. 상태코드: {status_code}")
+                raise ConnectionError(
+                    f"연결에 문제가 있습니다. 상태코드: {status_code}"
+                )
 
     def __get_response(
         self, headers: Dict[str, str] = DEFAULT_HEADER
@@ -70,7 +72,10 @@ class Problem:
             return f"{self.input} # {self.output}"
 
         def __repr__(self):
-            return f"< [{self.problem.num}번 {self.problem.title}]({self.problem.url}) {self.num} 번 예제 at {hex(id(self))}>"
+            return (
+                f"< [{self.problem.num}번 {self.problem.title}]({self.problem.url}) "
+                "{self.num} 번 예제 at {hex(id(self))}>"
+            )
 
     def set_examples(self):
         content_selector = "#problem-body > div.col-md-12"
