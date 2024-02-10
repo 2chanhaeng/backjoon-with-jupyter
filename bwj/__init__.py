@@ -6,13 +6,14 @@ from typing import Callable, Dict, Final, Optional
 
 import requests
 from bs4 import BeautifulSoup as bs
+from bs4 import Tag
 
 __all__ = ["test", "set_open", "set_input"]
 
 
 class Problem:
     DEFAULT_HEADER: Dict[str, str] = json.loads(
-        pkgutil.get_data(__name__, "static/default_header.json")
+        pkgutil.get_data(__name__, "static/default_header.json") or "{}"
     )
 
     def __init__(self, num: int):
@@ -27,7 +28,7 @@ class Problem:
             case 404:
                 raise ValueError(f"{num}번 문제는 존재하지 않습니다.")
             case 403:
-                raise PermissionError(f"잘못된 접근입니다. 헤더를 수정해주세요.")
+                raise PermissionError("잘못된 접근입니다. 헤더를 수정해주세요.")
             case status_code:
                 raise ConnectionError(
                     f"연결에 문제가 있습니다. 상태코드: {status_code}"
@@ -45,8 +46,9 @@ class Problem:
     def set_soup(self):
         self.soup = bs(self.__get_response().text, "html.parser")
 
-    def set_title(self):
-        self.title = self.soup.select_one("#problem_title").text
+    def set_title(self) -> None:
+        title_tag = self.soup.select_one("#problem_title")
+        self.title = title_tag.text if title_tag else "문제 제목을 찾을 수 없습니다."
 
     class Example:
         counter = 0
@@ -55,7 +57,7 @@ class Problem:
         def count(cls) -> None:
             cls.counter += 1
 
-        def __init__(self, problem: "Problem", elem: bs):
+        def __init__(self, problem: "Problem", elem: Tag):
             self.elem = elem
             self.input, self.output = map(self.text_extract, elem.select("pre"))
             if self.output.endswith("\n"):
@@ -65,7 +67,7 @@ class Problem:
             self.problem = problem
 
         @staticmethod
-        def text_extract(io_elem: bs) -> str:
+        def text_extract(io_elem: Tag) -> str:
             return io_elem.text.replace("\r\n", "\n")
 
         def __str__(self):
