@@ -92,7 +92,7 @@ class Problem:
         return f"< [{self.num}번 {self.title}]({self.url}) at {hex(id(self))}>"
 
 
-def test(solution: Callable[[Callable], None]) -> Callable[[Optional[str]], None]:
+def test(solution: Callable[[], None]) -> Callable[[Optional[str]], None]:
     def test_example(example: Optional[str] = None) -> None:
         sys.stdin = StringIO(example)
         solution()
