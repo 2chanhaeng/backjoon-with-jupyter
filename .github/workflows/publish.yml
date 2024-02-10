@@ -34,7 +34,6 @@ jobs:
 
       - name: Update version in setup.py
         run: >-
-          echo "s/{{VERSION_PLACEHOLDER}}/${{ steps.tag.outputs.TAG_NAME }}/g"
           sed -i "s/{{VERSION_PLACEHOLDER}}/${{ steps.tag.outputs.TAG_NAME }}/g" setup.py
 
       - name: Build and publish
