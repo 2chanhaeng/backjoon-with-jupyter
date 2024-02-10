@@ -55,7 +55,7 @@ class Problem:
 
         def __init__(self, problem: "Problem", elem: bs):
             self.elem = elem
-            self.input, self.output = map(self.text_extracrt, elem.select("pre"))
+            self.input, self.output = map(self.text_extract, elem.select("pre"))
             if self.output.endswith("\n"):
                 self.output = self.output.rstrip()
             problem.Example.count()
@@ -63,7 +63,7 @@ class Problem:
             self.problem = problem
 
         @staticmethod
-        def text_extracrt(io_elem: bs) -> str:
+        def text_extract(io_elem: bs) -> str:
             return io_elem.text.replace("\r\n", "\n")
 
         def __str__(self):
