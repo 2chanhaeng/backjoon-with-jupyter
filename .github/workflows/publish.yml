@@ -34,7 +34,7 @@ jobs:
 
       - name: Update version in setup.py
         run: >-
-          sed -i "s/{{VERSION_PLACEHOLDER}}/${{ steps.tag.outputs.TAG_NAME }}/g" setup.py
+          sed -i "${{VERSION_PLACEHOLDER}}/${{ steps.tag.outputs.TAG_NAME }}/g" setup.py
 
       - name: Build and publish
         run: |
@@ -43,4 +43,5 @@ jobs:
       - name: Publish package distributions to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
+          password: ${{ secrets.TEST_PYPI_API_KEY }}
           repository-url: https://test.pypi.org/legacy/
