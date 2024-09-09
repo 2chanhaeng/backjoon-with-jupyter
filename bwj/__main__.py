@@ -74,5 +74,5 @@ if os.path.exists(f"./solving/{fn}"):
 
             fn = f"{filename}.ipynb"
 
-with open(f"solving/{fn}", "w", encoding="utf-8-sig") as f:
-    json.dump(template, f, indent=4, ensure_ascii=False)
+with open(f"solving/{fn}", "w", encoding="utf-8") as f:
+    json.dump(template, f, indent=2, ensure_ascii=False)
